@@ -96,11 +96,17 @@ import ora from "ora"
   write("src/index.ts", 'console.log("works!")')
   dir("tests")
   dir("types")
+  ora("adding default files/folders").succeed()
 
   dotfiles()
+  ora("adding dotfiles").succeed()
   git(folderName)
+  ora("initializing git").succeed()
 
   const spinner = ora("installing dependencies").start()
   await execa("npm", ["i", "-D", ...devDependencies])
   spinner.succeed()
+
+  await execa("code", ["."])
+  ora("opening vscode").succeed()
 })()
