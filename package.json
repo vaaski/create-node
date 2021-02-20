@@ -11,7 +11,7 @@
     "build": "rimraf lib && tsc",
     "dev": "ts-node src",
     "commit": "git cz -S",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"no tests\""
   },
   "repository": {
     "type": "git",
