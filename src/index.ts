@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { MultiSelect } from "enquirer"
 import { copy, cwd, dir, read, write } from "fs-jetpack"
 import npmInit from "./packageJson"
