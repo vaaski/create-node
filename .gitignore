@@ -1,0 +1,6 @@
+.env
+node_modules
+lib
+.nyc_output
+coverage
+*.temp
