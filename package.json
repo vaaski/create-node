@@ -3,6 +3,10 @@
   "version": "0.0.1",
   "description": "Personal node.js/typescript boilerplate",
   "main": "lib/index.js",
+  "files": [
+    "lib/**/*"
+  ],
+  "bin": "lib/index.js",
   "scripts": {
     "build": "rimraf lib && tsc",
     "dev": "ts-node src",

@@ -35,6 +35,8 @@ import ora from "ora"
   packageJson.scripts.prepublishOnly = "npm test"
   packageJson.scripts.dev = "ts-node src"
 
+  packageJson.files = ["lib/**/*"]
+
   const addons = ((await new MultiSelect({
     type: "multiselect",
     name: "addons",
