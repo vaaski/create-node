@@ -1,7 +1,7 @@
 import { Toggle } from "enquirer"
 import { write } from "fs-jetpack"
 
-export const testDependencies = ["ava", "nyc", "live-server"]
+export const testDependencies = ["ava", "nyc", "live-server", "eslint-plugin-ava"]
 
 export default async (dotenv = false): Promise<Record<string, any>> => {
   const threshold = await new Toggle({

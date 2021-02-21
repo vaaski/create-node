@@ -20,11 +20,11 @@ import ora from "ora"
     "@typescript-eslint/parser",
     "eslint",
     "eslint-config-prettier",
-    "eslint-plugin-ava",
     "eslint-plugin-prettier",
     "rimraf",
     "ts-node",
     "typescript",
+    "prettier",
   ]
   const gitIgnore = ["node_modules", "lib"]
 
