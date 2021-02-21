@@ -100,12 +100,13 @@ import ora from "ora"
 
   dotfiles()
   ora("adding dotfiles").succeed()
-  git(folderName)
-  ora("initializing git").succeed()
 
   const spinner = ora("installing dependencies").start()
   await execa("npm", ["i", "-D", ...devDependencies])
   spinner.succeed()
+
+  git(folderName)
+  ora("initializing git").succeed()
 
   await execa("code", ["."])
   ora("opening vscode").succeed()
