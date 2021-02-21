@@ -1,4 +1,4 @@
-import { prompt } from "enquirer"
+import { Input, prompt } from "enquirer"
 
 export default async (name: string): Promise<Record<string, any>> => {
   const packageJson = await prompt([
@@ -23,8 +23,16 @@ export default async (name: string): Promise<Record<string, any>> => {
 
   packageJson.version = "0.0.1"
   packageJson.main = "lib/index.js"
-  packageJson.author = "vaaski <admin@vaa.ski>"
   packageJson.license = "MIT"
+
+  const { CREATE_NODE_USERNAME, CREATE_NODE_EMAIL } = process.env
+
+  if (CREATE_NODE_USERNAME && CREATE_NODE_EMAIL)
+    packageJson.author = `${CREATE_NODE_USERNAME} <${CREATE_NODE_EMAIL}>`
+  else
+    packageJson.author = await new Input({
+      message: "author: ",
+    }).run()
 
   return packageJson
 }
