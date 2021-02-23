@@ -42,8 +42,8 @@ import ora from "ora"
     type: "multiselect",
     name: "addons",
     message: "select addons",
-    // @ts-expect-error idk why
-    initial: ["test", "commitizen"],
+    // @ts-expect-error it does actually work this way, i think the types are weird
+    initial: ["test", "commitizen", "nodemon"],
     choices: [
       {
         name: "dotenv",
