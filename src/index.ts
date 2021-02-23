@@ -8,9 +8,12 @@ import { join, parse } from "path"
 import git from "./git"
 import execa from "execa"
 import ora from "ora"
+import chalk from "chalk"
 
 !(async () => {
+  const { version } = read(join(__dirname, "../package.json"), "json")
   console.clear()
+  console.log(chalk.grey(`@vaaski/create-node v${version}\n`))
 
   const folderName = parse(cwd()).base
   let packageJson = read("package.json", "json")
