@@ -19,6 +19,7 @@ export default async (dotenv = false): Promise<Record<string, any>> => {
     extensions: ["ts"],
     files: ["tests/**/*"],
     require: ["ts-node/register"],
+    failFast: true,
   }
 
   if (dotenv) ava.require.push("dotenv/config")
