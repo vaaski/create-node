@@ -111,6 +111,6 @@ import chalk from "chalk"
   await execa("npm", ["i", "-D", ...devDependencies])
   spinner.succeed()
 
-  git(folderName)
+  git()
   ora("initializing git").succeed()
 })()
