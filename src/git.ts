@@ -1,4 +1,3 @@
-import { Input } from "enquirer"
 import execa from "execa"
 
 export default async (): Promise<void> => {

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { MultiSelect } from "enquirer"
-import { copy, cwd, dir, read, write } from "fs-jetpack"
+import { cwd, dir, read, write } from "fs-jetpack"
 import npmInit from "./packageJson"
 import dotfiles from "./dotfiles"
 import test, { testDependencies } from "./test"
@@ -88,9 +88,12 @@ import chalk from "chalk"
   }
 
   if (addons.includes("nodemon")) {
+    const nodemon = read(join(__dirname, "../nodemon.json"), "json")
+    if (addons.includes("dotenv")) nodemon.exec = "npx ts-node -r dotenv/config ./src/index.ts"
+
+    write("nodemon.json", nodemon)
     devDependencies.push("nodemon")
     packageJson.scripts.dev = "nodemon"
-    copy(join(__dirname, "../nodemon.json"), "nodemon.json")
   }
 
   write("package.json", packageJson)
