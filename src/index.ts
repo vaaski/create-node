@@ -34,6 +34,7 @@ import chalk from "chalk"
   if (!packageJson) packageJson = await npmInit(folderName)
 
   if (!packageJson.scripts) packageJson.scripts = {}
+  packageJson.scripts.start = "node lib"
   packageJson.scripts.build = "rimraf lib && tsc"
   packageJson.scripts.prepare = "npm run build"
   packageJson.scripts.dev = "ts-node src"
@@ -86,6 +87,7 @@ import chalk from "chalk"
     write(".env", "")
     write(".env.example", "")
     gitIgnore.push(".env")
+    packageJson.scripts.start = "node -r dotenv/config lib"
   }
 
   if (addons.includes("nodemon")) {
