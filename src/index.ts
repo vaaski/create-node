@@ -36,7 +36,6 @@ import chalk from "chalk"
   if (!packageJson.scripts) packageJson.scripts = {}
   packageJson.scripts.build = "rimraf lib && tsc"
   packageJson.scripts.prepare = "npm run build"
-  packageJson.scripts.prepublishOnly = "npm test"
   packageJson.scripts.dev = "ts-node src"
 
   packageJson.files = ["lib/**/*"]
@@ -74,6 +73,7 @@ import chalk from "chalk"
     gitIgnore.push(".nyc_output", "coverage")
     packageJson.scripts.test = "nyc ava"
     packageJson.scripts.coverage = "live-server coverage/lcov-report"
+    packageJson.scripts.prepublishOnly = "npm test"
   }
 
   if (addons.includes("commitizen")) {
