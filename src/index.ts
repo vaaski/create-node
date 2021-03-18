@@ -85,6 +85,7 @@ import chalk from "chalk"
     devDependencies.push("dotenv")
     write(".env", "")
     write(".env.example", "")
+    gitIgnore.push(".env")
   }
 
   if (addons.includes("nodemon")) {
