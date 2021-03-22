@@ -75,6 +75,7 @@ import chalk from "chalk"
     packageJson.scripts.test = "nyc ava"
     packageJson.scripts.coverage = "live-server coverage/lcov-report"
     packageJson.scripts.prepublishOnly = "npm test"
+    dir("tests")
   }
 
   if (addons.includes("commitizen")) {
@@ -103,9 +104,7 @@ import chalk from "chalk"
   write(".gitignore", gitIgnore.join("\n"))
 
   write("src/index.ts", 'console.log("works!")')
-  dir("tests")
   dir("types")
-  ora("adding default files/folders").succeed()
 
   dotfiles()
   ora("adding dotfiles").succeed()
