@@ -111,7 +111,7 @@ import chalk from "chalk"
 
   write("src/index.ts", 'console.log("works!")\n')
 
-  await dotfiles()
+  await dotfiles(packageJson.name, addons.includes("dotenv"))
 
   write("package.json", packageJson)
   write(".gitignore", gitIgnore.join("\n"))

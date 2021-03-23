@@ -1,11 +1,18 @@
-import { copy } from "fs-jetpack"
+import { read, write } from "fs-jetpack"
 import { join } from "path"
+import { cp } from "./util"
 
-// TODO ecosystem.config.js
-export default async (): Promise<void> => {
+export default async (name: string, dotenv: boolean): Promise<void> => {
   const toCopy = [".prettierrc", ".eslintrc.json", "license.md", "tsconfig.json"]
 
   for (const file of toCopy) {
-    copy(join(__dirname, "../", file), file)
+    cp("../" + file, file)
   }
+
+  let ecosystemConfig = read(
+    join(__dirname, dotenv ? "../ecosystem-dotenv.config.js" : "../ecosystem.config.js")
+  )
+  if (!ecosystemConfig) throw new Error("no ecosystem file found")
+  ecosystemConfig = ecosystemConfig.replace("{{APP_NAME}}", name)
+  write("ecosystem.config.js", ecosystemConfig)
 }

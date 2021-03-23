@@ -9,7 +9,8 @@
     ".prettierrc",
     ".eslintrc.json",
     "tsconfig.json",
-    "vue/**/*"
+    "vue/**/*",
+    "./ecosystem**"
   ],
   "bin": {
     "create-node": "lib/index.js"

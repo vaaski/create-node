@@ -1,7 +1,7 @@
 import { Toggle } from "enquirer"
 import { copy, read, rename, write } from "fs-jetpack"
 import { join } from "path"
-import { emptyFolder } from "./util"
+import { cp, emptyFolder } from "./util"
 
 interface ReturnDependencies {
   dependencies: string[]
@@ -37,8 +37,6 @@ export default async (name: string): Promise<ReturnDependencies> => {
     initial: true,
   }).run()
 
-  const cp = (a: string, b: string) => copy(join(__dirname, a), join(b))
-
   // changes to backend
   {
     rename("src", "backend")
@@ -69,7 +67,7 @@ export default async (name: string): Promise<ReturnDependencies> => {
 
   const indexHTML = read(join(__dirname, "../vue/index.html"))
   if (!indexHTML) throw new Error("index.html missing")
-  write("index.html", indexHTML.replace("{{VITE_APP_NAME}}", name))
+  write("index.html", indexHTML.replace("{{APP_NAME}}", name))
   emptyFolder("public")
 
   // create main.ts
@@ -102,6 +100,8 @@ export default async (name: string): Promise<ReturnDependencies> => {
   } else {
     cp("../vue/app.vue", "src/app.vue")
   }
+
+  cp("../vue/netlify.toml", "netlify.toml")
 
   return dependencies
 }
