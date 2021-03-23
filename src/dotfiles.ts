@@ -1,7 +1,8 @@
 import { copy } from "fs-jetpack"
 import { join } from "path"
 
-export default (): void => {
+// TODO ecosystem.config.js
+export default async (): Promise<void> => {
   const toCopy = [".prettierrc", ".eslintrc.json", "license.md", "tsconfig.json"]
 
   for (const file of toCopy) {

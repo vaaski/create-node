@@ -4,3 +4,7 @@ lib
 .nyc_output
 coverage
 *.temp
+.DS_Store
+dist
+dist-ssr
+*.local

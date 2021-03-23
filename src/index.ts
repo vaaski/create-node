@@ -4,8 +4,11 @@ import { cwd, dir, read, write } from "fs-jetpack"
 import npmInit from "./packageJson"
 import dotfiles from "./dotfiles"
 import test, { testDependencies } from "./test"
-import { join, parse } from "path"
 import git from "./git"
+import vue from "./vue"
+import { emptyFolder } from "./util"
+
+import { join, parse } from "path"
 import execa from "execa"
 import ora from "ora"
 import chalk from "chalk"
@@ -29,6 +32,7 @@ import chalk from "chalk"
     "typescript",
     "prettier",
   ]
+  const dependencies: string[] = []
   const gitIgnore = ["node_modules", "lib"]
 
   if (!packageJson) packageJson = await npmInit(folderName)
@@ -47,10 +51,15 @@ import chalk from "chalk"
     message: "select addons",
     // @ts-expect-error it does actually work this way, i think the types are weird
     initial: ["test", "commitizen", "nodemon"],
+    // TODO add debug package
     choices: [
       {
         name: "dotenv",
         value: "dotenv",
+      },
+      {
+        name: "vue 3",
+        value: "vue 3",
       },
       {
         name: "nodemon",
@@ -100,13 +109,19 @@ import chalk from "chalk"
     packageJson.scripts.dev = "nodemon"
   }
 
+  write("src/index.ts", 'console.log("works!")\n')
+
+  await dotfiles()
+
   write("package.json", packageJson)
   write(".gitignore", gitIgnore.join("\n"))
 
-  write("src/index.ts", 'console.log("works!")')
-  dir("types")
+  if (addons.includes("vue 3")) {
+    const vueDeps = await vue(packageJson.name)
+    dependencies.push(...vueDeps.dependencies)
+    devDependencies.push(...vueDeps.devDependencies)
+  }
 
-  dotfiles()
   ora("adding dotfiles").succeed()
 
   emptyFolder("types")
@@ -115,7 +130,9 @@ import chalk from "chalk"
   ora("opening vscode").succeed()
 
   const spinner = ora("installing dependencies").start()
+  // TODO uncomment before release
   await execa("npm", ["i", "-D", ...devDependencies])
+  if (dependencies.length) await execa("npm", ["i", ...dependencies])
   spinner.succeed()
 
   git()
