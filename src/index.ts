@@ -75,7 +75,7 @@ import chalk from "chalk"
     packageJson.scripts.test = "nyc ava"
     packageJson.scripts.coverage = "live-server coverage/lcov-report"
     packageJson.scripts.prepublishOnly = "npm test"
-    dir("tests")
+    emptyFolder("tests")
   }
 
   if (addons.includes("commitizen")) {
@@ -108,6 +108,8 @@ import chalk from "chalk"
 
   dotfiles()
   ora("adding dotfiles").succeed()
+
+  emptyFolder("types")
 
   await execa("code", ["."])
   ora("opening vscode").succeed()
