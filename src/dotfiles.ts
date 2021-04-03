@@ -9,10 +9,10 @@ export default async (name: string, dotenv: boolean): Promise<void> => {
     cp("../" + file, file)
   }
 
-  let ecosystemConfig = read(
-    join(__dirname, dotenv ? "../ecosystem-dotenv.config.js" : "../ecosystem.config.js")
+  let pm2Config = read(
+    join(__dirname, dotenv ? "../pm2-dotenv.config.js" : "../pm2.config.js")
   )
-  if (!ecosystemConfig) throw new Error("no ecosystem file found")
-  ecosystemConfig = ecosystemConfig.replace("{{APP_NAME}}", name)
-  write("ecosystem.config.js", ecosystemConfig)
+  if (!pm2Config) throw new Error("no pm2 file found")
+  pm2Config = pm2Config.replace("{{APP_NAME}}", name)
+  write("pm2.config.js", pm2Config)
 }

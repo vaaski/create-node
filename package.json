@@ -10,7 +10,7 @@
     ".eslintrc.json",
     "tsconfig.json",
     "vue/**/*",
-    "./ecosystem**"
+    "pm2*"
   ],
   "bin": {
     "create-node": "lib/index.js"
