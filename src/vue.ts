@@ -50,7 +50,7 @@ export default async (name: string): Promise<ReturnDependencies> => {
     packageJson.scripts["back:build"] = packageJson.scripts.build + " -p tsconfig.backend.json"
     packageJson.scripts["back:dev"] = packageJson.scripts.dev
     packageJson.scripts["front:dev"] = "vite --port 8080"
-    packageJson.scripts["front:build"] = "vite build"
+    packageJson.scripts["front:build"] = "vue-tsc --noEmit && vite build"
 
     delete packageJson.scripts.build
     delete packageJson.scripts.dev
