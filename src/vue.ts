@@ -60,9 +60,11 @@ export default async (name: string): Promise<ReturnDependencies> => {
     write("package.json", packageJson)
 
     const nodemonConfig = read("nodemon.json", "json")
-    nodemonConfig.watch = ["backend", "types"]
-    nodemonConfig.exec = "npx ts-node ./backend/index.ts"
-    write("nodemon.json", nodemonConfig)
+    if (nodemonConfig) {
+      nodemonConfig.watch = ["backend", "types"]
+      nodemonConfig.exec = "npx ts-node ./backend/index.ts"
+      write("nodemon.json", nodemonConfig)
+    }
   }
 
   const indexHTML = read(join(__dirname, "../vue/index.html"))
