@@ -57,6 +57,6 @@
     "enquirer": "github:bitjson/enquirer#typings",
     "execa": "^5.1.1",
     "fs-jetpack": "^4.1.0",
-    "ora": "^5.4.1"
+    "ora": "^6.0.1"
   }
 }
