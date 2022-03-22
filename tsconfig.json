@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
-    "module": "esnext",
-    "target": "esnext",
+    "module": "CommonJS",
     "sourceMap": false,
     "moduleResolution": "Node",
     "skipLibCheck": true,
@@ -9,6 +8,7 @@
     "isolatedModules": true,
     "outDir": "dist",
     "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
 
     // Don't automatically include anything.
     // Only include `@types` packages that we need to import.
