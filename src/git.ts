@@ -6,7 +6,7 @@ export default async (): Promise<void> => {
     await execa("git", ["add", "."])
     await execa("git", ["commit", "-m", "init"])
     await execa("git", ["branch", "-M", "main"])
-  } catch (err) {
+  } catch (err: any) {
     console.log(err.shortMessage)
   }
 }

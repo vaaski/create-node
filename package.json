@@ -2,9 +2,9 @@
   "name": "@vaaski/create-node",
   "version": "1.1.0",
   "description": "Personal node.js/typescript boilerplate",
-  "main": "lib/index.js",
+  "main": "dist/index.js",
   "files": [
-    "lib/**/*",
+    "dist/**/*",
     "nodemon.json",
     ".prettierrc",
     ".eslintrc.json",
@@ -13,13 +13,13 @@
     "pm2*"
   ],
   "bin": {
-    "create-node": "lib/index.js"
+    "create-node": "dist/index.js"
   },
   "scripts": {
-    "build": "rimraf lib && tsc",
+    "build": "rimraf dist && tsc",
     "dev": "ts-node src",
-    "commit": "git cz -S",
-    "test": "echo \"no tests\""
+    "test": "echo \"no tests\"",
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
