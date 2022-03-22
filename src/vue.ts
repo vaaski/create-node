@@ -1,5 +1,5 @@
 import { Toggle } from "enquirer"
-import { copy, read, rename, write } from "fs-jetpack"
+import { read, rename, write } from "fs-jetpack"
 import { join } from "path"
 import { cp, emptyFolder } from "./util"
 
@@ -8,7 +8,6 @@ interface ReturnDependencies {
   devDependencies: string[]
 }
 
-// TODO netlify.toml
 export default async (name: string): Promise<ReturnDependencies> => {
   const dependencies = {
     devDependencies: [
@@ -43,7 +42,8 @@ export default async (name: string): Promise<ReturnDependencies> => {
     const backendTSconfig = read("tsconfig.json", "json")
     backendTSconfig.include = ["backend"]
     write("tsconfig.backend.json", backendTSconfig)
-    copy(join(__dirname, "../vue/tsconfig.json"), "tsconfig.json", { overwrite: true })
+    cp("../vue/tsconfig.json", "tsconfig.json", true)
+    cp("../vue/.eslintrc.json", ".eslintrc.json", true)
 
     const packageJson = read("package.json", "json")
 
@@ -97,10 +97,10 @@ export default async (name: string): Promise<ReturnDependencies> => {
     dependencies.dependencies.push("vue-router@4")
 
     cp("../vue/router.ts", "src/router.ts")
-    cp("../vue/app-router.vue", "src/app.vue")
-    cp("../vue/home.vue", "src/views/home.vue")
+    cp("../vue/app-router.vue", "src/App.vue")
+    cp("../vue/home.vue", "src/views/Home.vue")
   } else {
-    cp("../vue/app.vue", "src/app.vue")
+    cp("../vue/app.vue", "src/App.vue")
   }
 
   cp("../vue/netlify.toml", "netlify.toml")

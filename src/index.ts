@@ -21,7 +21,7 @@ import chalk from "chalk"
   const folderName = parse(cwd()).base
   let packageJson = read("package.json", "json")
   const devDependencies = [
-    "@types/node",
+    "@types/node@16",
     "@typescript-eslint/eslint-plugin",
     "@typescript-eslint/parser",
     "eslint",

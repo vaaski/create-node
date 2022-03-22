@@ -19,8 +19,7 @@
     "build": "rimraf lib && tsc",
     "dev": "ts-node src",
     "commit": "git cz -S",
-    "test": "echo \"no tests\"",
-    "prepare": "npm run build"
+    "test": "echo \"no tests\""
   },
   "repository": {
     "type": "git",
@@ -41,7 +40,6 @@
     "@types/node": "^15.14.9",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
-    "commitizen": "4.2.4",
     "dotenv": "^10.0.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
