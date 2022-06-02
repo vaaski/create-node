@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { MultiSelect } from "enquirer"
-import { cwd, dir, read, write } from "fs-jetpack"
+import { cwd, read, write } from "fs-jetpack"
 import npmInit from "./packageJson"
 import dotfiles from "./dotfiles"
 import test, { testDependencies } from "./test"
@@ -17,6 +17,7 @@ import chalk from "chalk"
   const { version } = read(join(__dirname, "../package.json"), "json")
   console.clear()
   console.log(chalk.grey(`@vaaski/create-node v${version}\n`))
+  console.log(chalk.grey(`project will be at ${parse(cwd()).dir}`))
 
   const folderName = parse(cwd()).base
   let packageJson = read("package.json", "json")
@@ -42,6 +43,7 @@ import chalk from "chalk"
   packageJson.scripts.build = "rimraf lib && tsc"
   packageJson.scripts.prepare = "npm run build"
   packageJson.scripts.dev = "ts-node src"
+  packageJson.scripts.format = "prettier -w **/*.{vue,ts,js,json}"
 
   packageJson.files = ["lib/**/*"]
 
@@ -50,7 +52,7 @@ import chalk from "chalk"
     name: "addons",
     message: "select addons",
     // @ts-expect-error it does actually work this way, i think the types are weird
-    initial: ["test", "commitizen", "nodemon"],
+    initial: ["test", "nodemon"],
     // TODO add debug package
     choices: [
       {
@@ -69,10 +71,6 @@ import chalk from "chalk"
         name: "test",
         value: "test",
       },
-      {
-        name: "commitizen",
-        value: "commitizen",
-      },
     ],
   }).run()) as unknown as string[]
 
@@ -85,11 +83,6 @@ import chalk from "chalk"
     packageJson.scripts.coverage = "live-server coverage/lcov-report"
     packageJson.scripts.prepublishOnly = "npm test"
     emptyFolder("tests")
-  }
-
-  if (addons.includes("commitizen")) {
-    devDependencies.push("commitizen@4.2.2")
-    packageJson.scripts.commit = "cz -S"
   }
 
   if (addons.includes("dotenv")) {
@@ -109,7 +102,7 @@ import chalk from "chalk"
     packageJson.scripts.dev = "nodemon"
   }
 
-  write("src/index.ts", 'console.log("works!")\n')
+  write("src/index.ts", 'console.log("works!")\n\nexport {}')
 
   await dotfiles(packageJson.name, addons.includes("dotenv"))
 
@@ -130,7 +123,6 @@ import chalk from "chalk"
   ora("opening vscode").succeed()
 
   const spinner = ora("installing dependencies").start()
-  // TODO uncomment before release
   await execa("npm", ["i", "-D", ...devDependencies])
   if (dependencies.length) await execa("npm", ["i", ...dependencies])
   spinner.succeed()
