@@ -44,6 +44,7 @@ import chalk from "chalk"
   packageJson.scripts.prepare = "npm run build"
   packageJson.scripts.dev = "ts-node src"
   packageJson.scripts.format = "prettier -w **/*.{vue,ts,js,json}"
+  packageJson.type = "module"
 
   packageJson.files = ["dist/**/*"]
 
@@ -93,7 +94,9 @@ import chalk from "chalk"
 
   if (addons.includes("nodemon")) {
     const nodemon = read(join(__dirname, "../nodemon.json"), "json")
-    if (addons.includes("dotenv")) nodemon.exec = "npx ts-node -r dotenv/config ./src/index.ts"
+    if (addons.includes("dotenv")) {
+      nodemon.exec = "node --loader ts-node/esm -r dotenv/config ./src/index.ts"
+    }
 
     write("nodemon.json", nodemon)
     devDependencies.push("nodemon")

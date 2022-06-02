@@ -62,7 +62,7 @@ export default async (name: string): Promise<ReturnDependencies> => {
     const nodemonConfig = read("nodemon.json", "json")
     if (nodemonConfig) {
       nodemonConfig.watch = ["backend", "types"]
-      nodemonConfig.exec = "npx ts-node ./backend/index.ts"
+      nodemonConfig.exec = "node --loader ts-node/esm ./backend/index.ts"
       write("nodemon.json", nodemonConfig)
     }
   }
