@@ -33,19 +33,19 @@ import chalk from "chalk"
     "typescript",
     "prettier",
   ]
-  const dependencies: string[] = []
-  const gitIgnore = ["node_modules", "lib"]
+  const dependencies: string[] = ["debug"]
+  const gitIgnore = ["node_modules", "dist", ".DS_Store", "**/*.local", ".env"]
 
   if (!packageJson) packageJson = await npmInit(folderName)
 
   if (!packageJson.scripts) packageJson.scripts = {}
-  packageJson.scripts.start = "node lib"
-  packageJson.scripts.build = "rimraf lib && tsc"
+  packageJson.scripts.start = "node dist"
+  packageJson.scripts.build = "rimraf dist && tsc"
   packageJson.scripts.prepare = "npm run build"
   packageJson.scripts.dev = "ts-node src"
   packageJson.scripts.format = "prettier -w **/*.{vue,ts,js,json}"
 
-  packageJson.files = ["lib/**/*"]
+  packageJson.files = ["dist/**/*"]
 
   const addons = (await new MultiSelect({
     type: "multiselect",
@@ -53,7 +53,6 @@ import chalk from "chalk"
     message: "select addons",
     // @ts-expect-error it does actually work this way, i think the types are weird
     initial: ["test", "nodemon"],
-    // TODO add debug package
     choices: [
       {
         name: "dotenv",
@@ -89,8 +88,7 @@ import chalk from "chalk"
     devDependencies.push("dotenv")
     write(".env", "")
     write(".env.example", "")
-    gitIgnore.push(".env")
-    packageJson.scripts.start = "node -r dotenv/config lib"
+    packageJson.scripts.start = "node -r dotenv/config dist"
   }
 
   if (addons.includes("nodemon")) {
