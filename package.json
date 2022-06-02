@@ -1,6 +1,6 @@
 {
   "name": "@vaaski/create-node",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "Personal node.js/typescript boilerplate",
   "main": "dist/index.js",
   "files": [
