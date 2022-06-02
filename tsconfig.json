@@ -10,8 +10,6 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
 
-    // Don't automatically include anything.
-    // Only include `@types` packages that we need to import.
     "types": ["@types/node"],
 
     "baseUrl": ".",
