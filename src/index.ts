@@ -125,6 +125,9 @@ import chalk from "chalk"
   if (dependencies.length) await execa("npm", ["i", ...dependencies])
   spinner.succeed()
 
+  ora("formatting files").succeed()
+  await execa("npm", ["run", "format"])
+
   git()
   ora("initializing git").succeed()
 })()
