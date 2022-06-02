@@ -19,6 +19,7 @@
     "build": "rimraf dist && tsc",
     "dev": "ts-node src",
     "test": "echo \"no tests\"",
+    "format": "prettier -w **/*.{vue,ts,js,json}",
     "prepare": "npm run build"
   },
   "repository": {

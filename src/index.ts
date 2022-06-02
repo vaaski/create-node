@@ -45,7 +45,7 @@ import chalk from "chalk"
 
   packageJson.files = ["lib/**/*"]
 
-  const addons = ((await new MultiSelect({
+  const addons = (await new MultiSelect({
     type: "multiselect",
     name: "addons",
     message: "select addons",
@@ -74,7 +74,7 @@ import chalk from "chalk"
         value: "commitizen",
       },
     ],
-  }).run()) as unknown) as string[]
+  }).run()) as unknown as string[]
 
   if (addons.includes("test")) {
     devDependencies.push(...testDependencies)
