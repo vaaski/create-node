@@ -29,6 +29,7 @@ import chalk from "chalk"
     "eslint",
     "eslint-config-prettier",
     "eslint-plugin-prettier",
+    "eslint-plugin-vue",
     "rimraf",
     "ts-node",
     "typescript",
