@@ -4,5 +4,9 @@
   "exec": "node --loader ts-node/esm ./src/index.ts",
   "events": {
     "start": "node -e \"console.clear()\""
+  },
+  "env": {
+    "NODE_ENV": "development",
+    "DEBUG": "{{APP_NAME}}*"
   }
 }

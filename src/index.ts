@@ -22,6 +22,7 @@ import chalk from "chalk"
   const folderName = parse(cwd()).base
   let packageJson = read("package.json", "json")
   const devDependencies = [
+    "@types/debug",
     "@types/node@16",
     "@typescript-eslint/eslint-plugin",
     "@typescript-eslint/parser",
@@ -94,8 +95,13 @@ import chalk from "chalk"
 
   if (addons.includes("nodemon")) {
     const nodemon = read(join(__dirname, "../nodemon.json"), "json")
+
     if (addons.includes("dotenv")) {
       nodemon.exec = "node --loader ts-node/esm -r dotenv/config ./src/index.ts"
+    }
+
+    if (nodemon.env?.DEBUG) {
+      nodemon.env.DEBUG = nodemon.env.DEBUG.replace("{{APP_NAME}}", packageJson.name)
     }
 
     write("nodemon.json", nodemon)
@@ -103,7 +109,10 @@ import chalk from "chalk"
     packageJson.scripts.dev = "nodemon"
   }
 
-  write("src/index.ts", 'console.log("works!")\n\nexport {}')
+  write(
+    "src/index.ts",
+    `import debug from "debug"\nconst log = debug("hctrl")\n\nlog("works!")`
+  )
 
   await dotfiles(packageJson.name, addons.includes("dotenv"))
 
