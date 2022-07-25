@@ -45,7 +45,8 @@ import chalk from "chalk"
   packageJson.scripts.build = "rimraf dist && tsc"
   packageJson.scripts.prepare = "npm run build"
   packageJson.scripts.dev = "ts-node src"
-  packageJson.scripts.format = "prettier -w **/*.{vue,ts,js,json}"
+  packageJson.scripts.format =
+    "prettier -w **/*.{vue,ts,js,json} --no-error-on-unmatched-pattern"
   packageJson.type = "module"
 
   packageJson.files = ["dist/**/*"]
