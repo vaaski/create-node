@@ -3,7 +3,7 @@ const { Toggle } = enq
 import jet from "fs-jetpack"
 const { read, rename, write } = jet
 import { join } from "path"
-import { cp, emptyFolder } from "./util.js"
+import { cp, emptyFolder, __dirname } from "./util.js"
 
 interface ReturnDependencies {
   dependencies: string[]

@@ -2,7 +2,7 @@ import jet from "fs-jetpack"
 const { read, write } = jet
 
 import { join } from "path"
-import { cp } from "./util.js"
+import { cp, __dirname } from "./util.js"
 
 export default async (name: string, dotenv: boolean): Promise<void> => {
   const toCopy = [".prettierrc", ".eslintrc.json", "license.md", "tsconfig.json"]

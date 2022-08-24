@@ -8,15 +8,12 @@ import dotfiles from "./dotfiles.js"
 import test, { testDependencies } from "./test.js"
 import git from "./git.js"
 import vue from "./vue.js"
-import { emptyFolder } from "./util.js"
+import { emptyFolder, __dirname } from "./util.js"
 
-import { join, parse, dirname } from "path"
-import { fileURLToPath } from "url"
+import { join, parse } from "path"
 import execa from "execa"
 import ora from "ora"
 import chalk from "chalk"
-
-const __dirname = dirname(fileURLToPath(import.meta.url))
 
 !(async () => {
   const { version } = read(join(__dirname, "../package.json"), "json")
