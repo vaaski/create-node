@@ -115,7 +115,7 @@ import chalk from "chalk"
 
   write(
     "src/index.ts",
-    `import debug from "debug"\nconst log = debug("hctrl")\n\nlog("works!")`
+    `import debug from "debug"\nconst log = debug("${packageJson.name}")\n\nlog("works!")`
   )
 
   await dotfiles(packageJson.name, addons.includes("dotenv"))
