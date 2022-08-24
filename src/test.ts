@@ -1,5 +1,7 @@
-import { Toggle } from "enquirer"
-import { write } from "fs-jetpack"
+import enq from "enquirer"
+const { Toggle } = enq
+import jet from "fs-jetpack"
+const { write } = jet
 
 export const testDependencies = ["ava", "nyc", "live-server", "eslint-plugin-ava"]
 

@@ -1,7 +1,9 @@
-import { Toggle } from "enquirer"
-import { read, rename, write } from "fs-jetpack"
+import enq from "enquirer"
+const { Toggle } = enq
+import jet from "fs-jetpack"
+const { read, rename, write } = jet
 import { join } from "path"
-import { cp, emptyFolder } from "./util"
+import { cp, emptyFolder } from "./util.js"
 
 interface ReturnDependencies {
   dependencies: string[]

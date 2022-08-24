@@ -1,5 +1,6 @@
 import chalk from "chalk"
-import { Input, prompt } from "enquirer"
+import enq from "enquirer"
+const { Input, prompt } = enq
 
 export default async (name: string): Promise<Record<string, any>> => {
   const packageJson = await prompt([

@@ -1,4 +1,5 @@
-import { copy, write } from "fs-jetpack"
+import jet from "fs-jetpack"
+const { copy, write } = jet
 import { join } from "path"
 
 export const emptyFolder = (path: string): void => write(join(path, ".gitkeep"), "")

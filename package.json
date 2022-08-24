@@ -2,7 +2,11 @@
   "name": "@vaaski/create-node",
   "version": "1.4.0",
   "description": "Personal node.js/typescript boilerplate",
-  "main": "dist/index.js",
+  "exports": "./dist/index.js",
+  "engines": {
+    "node": ">=14.16"
+  },
+  "type": "module",
   "files": [
     "dist/**/*",
     "nodemon.json",
@@ -59,3 +63,4 @@
     "ora": "^5.4.1"
   }
 }
+

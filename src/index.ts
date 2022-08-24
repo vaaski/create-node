@@ -1,17 +1,22 @@
 #!/usr/bin/env node
-import { MultiSelect } from "enquirer"
-import { cwd, read, write } from "fs-jetpack"
-import npmInit from "./packageJson"
-import dotfiles from "./dotfiles"
-import test, { testDependencies } from "./test"
-import git from "./git"
-import vue from "./vue"
-import { emptyFolder } from "./util"
+import enq from "enquirer"
+const { MultiSelect } = enq
+import jet from "fs-jetpack"
+const { cwd, read, write } = jet
+import npmInit from "./packageJson.js"
+import dotfiles from "./dotfiles.js"
+import test, { testDependencies } from "./test.js"
+import git from "./git.js"
+import vue from "./vue.js"
+import { emptyFolder } from "./util.js"
 
-import { join, parse } from "path"
+import { join, parse, dirname } from "path"
+import { fileURLToPath } from "url"
 import execa from "execa"
 import ora from "ora"
 import chalk from "chalk"
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 !(async () => {
   const { version } = read(join(__dirname, "../package.json"), "json")
