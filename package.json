@@ -1,0 +1,21 @@
+{
+  "name": "create-node",
+  "version": "1.0.0",
+  "description": "@vaaski nodejs + typescript boilerplate",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vaaski/create-node.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vaaski/create-node/issues"
+  },
+  "homepage": "https://github.com/vaaski/create-node#readme"
+}
