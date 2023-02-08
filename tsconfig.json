@@ -5,9 +5,9 @@
     "target": "ESNext",
     "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true,
-    "strictNullChecks": true,
     "skipLibCheck": true,
     "types": ["@types/node"],
+    "strict": true
   },
   "include": ["src/**/*.ts"]
 }

@@ -4,5 +4,6 @@
   "exec": "npx tsx",
   "events": {
     "start": "node -e \"console.clear()\""
-  }
+  },
+  "stdin": false
 }
