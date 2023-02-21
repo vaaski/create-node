@@ -1,5 +1,5 @@
 {
-  "name": "create-node",
+  "name": "@vaaski/create-node",
   "version": "1.0.0",
   "description": "@vaaski nodejs + typescript boilerplate",
   "type": "module",
