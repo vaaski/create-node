@@ -1,21 +1,21 @@
 #! /usr/bin/env node
 
-import { z } from "zod"
-import { zodPrompt } from "./prompt"
+import prompts from "prompts"
 
-const questionSchema = z.object({
-  name: z
-    .string()
-    .min(3, "must be at least 3 characters")
-    .regex(/^[\d_a-z-]+$/, {
-      message: "must be lowercase, numbers, dashes, and underscores",
-    }),
-  someNumber: z.number().min(0, "must be positive"),
-})
+const response = await prompts([
 
-const prompt = await zodPrompt(questionSchema, {
-  someNumber: { type: "number" },
-  name: {}
-})
+  {
+    type: "multiselect",
+    name: "multicolor",
+    message: "Pick colors",
+    instructions: false,
+    choices: [
+      { title: "Red", description: "This option has a description.", value: "#ff0000" },
+      { title: "Green", value: "#00ff00" },
+      { title: "Yellow", value: "#ffff00", disabled: true },
+      { title: "Blue", value: "#0000ff" },
+    ],
+  },
+])
 
-console.log("passed", prompt)
+console.log(response)

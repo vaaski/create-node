@@ -21,8 +21,8 @@
   },
   "homepage": "https://github.com/vaaski/create-node#readme",
   "devDependencies": {
-    "@types/inquirer": "^9.0.3",
     "@types/node": "^18.13.0",
+    "@types/prompts": "^2.4.2",
     "@typescript-eslint/eslint-plugin": "^5.51.0",
     "eslint": "^8.33.0",
     "eslint-config-prettier": "^8.6.0",
@@ -35,7 +35,6 @@
   },
   "dependencies": {
     "fs-jetpack": "^5.1.0",
-    "inquirer": "^9.1.4",
-    "zod": "^3.20.2"
+    "prompts": "^2.4.2"
   }
 }
