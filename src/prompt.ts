@@ -3,11 +3,15 @@ import inquirer from "inquirer"
 import type { z } from "zod"
 
 type SupportedPromptTypes = "input" | "number"
-type PromptQuestion<Keys> = Question & { name: Keys, type?: SupportedPromptTypes }
+// type PromptQuestion<Keys> = Question & { name: Keys, type?: SupportedPromptTypes }
+
+type PromptQuestionObject<Keys extends string | number | symbol> = {
+  [K in Keys]: Question & { type?: SupportedPromptTypes }
+}
 
 export const zodPrompt = async <RawShape extends z.ZodRawShape>(
   questionSchema: z.ZodObject<RawShape>,
-  prompts: PromptQuestion<keyof RawShape>[]
+  prompts: PromptQuestionObject<keyof RawShape>
 ) => {
   type QuestionKeys = keyof RawShape
   type SpecificQuestion<K extends QuestionKeys> = Question & { name: K }
@@ -28,7 +32,11 @@ export const zodPrompt = async <RawShape extends z.ZodRawShape>(
     return prompt
   }
 
-  const withValidation = prompts.map(prompt => autoValidate(prompt))
+  const entries = Object.entries(prompts)
+  const withValidation = entries.map(([key, prompt]) => {
+    return autoValidate({ ...prompt, name: key })
+  })
+
   const prompt = await inquirer.prompt(withValidation)
   return questionSchema.parse(prompt)
 }
