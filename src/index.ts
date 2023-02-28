@@ -71,6 +71,7 @@ const main = async () => {
 
   await mkdir(config.targetDirectory, { recursive: true })
   await createBackend()
+
   await addNodemon()
   await addUnbuild()
   await addPrettier()

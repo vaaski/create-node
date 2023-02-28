@@ -1,5 +1,6 @@
 import { writeFile } from "node:fs/promises"
 import { join } from "node:path"
+import { execa } from "execa"
 import { config } from "./shared"
 
 export const isValidPackageName = (projectName: string) => {
@@ -18,4 +19,9 @@ export const writeProjectFile = async (filePath: string, content: DefinitelyNotA
   if (typeof content !== "string") stringContent = JSON.stringify(content, undefined, 2)
 
   await writeFile(projectFilePath, stringContent)
+}
+
+// eslint-disable-next-line unicorn/prevent-abbreviations
+export const forwardedExeca = (command: string, args: string[]) => {
+  return execa(command, args, { stdio: "inherit", cwd: config.targetDirectory })
 }

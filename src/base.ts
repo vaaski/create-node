@@ -1,5 +1,5 @@
 import { config, dependencies, devDependencies, packageJson } from "./shared"
-import { writeProjectFile } from "./util"
+import { forwardedExeca, writeProjectFile } from "./util"
 
 export const writePackageJson = async () => {
   packageJson.name = config.projectName
@@ -9,8 +9,17 @@ export const writePackageJson = async () => {
 }
 
 export const installDependencies = async () => {
-  console.log("installing dependencies...")
-  console.log({ dependencies, devDependencies })
+  console.log("dependencies", { dependencies, devDependencies })
+
+  if (dependencies.length > 0) {
+    console.log("installing dependencies...")
+    await forwardedExeca("npm", ["install", ...dependencies])
+  }
+
+  if (devDependencies.length > 0) {
+    console.log("installing development dependencies...")
+    await forwardedExeca("npm", ["install", "-D", ...devDependencies])
+  }
 }
 
 const defaultGitignore = ["node_modules", "dist"].join("\n")
