@@ -29,3 +29,10 @@ export const addNodemon = async () => {
 
   await writeProjectFile("nodemon.json", nodemonConfig)
 }
+
+export const addUnbuild = async () => {
+  devDependencies.push("unbuild")
+
+  if (!packageJson.scripts) packageJson.scripts = {}
+  packageJson.scripts.build = "unbuild"
+}

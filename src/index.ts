@@ -9,9 +9,15 @@ import minimist from "minimist"
 
 import { formatTargetDirectory } from "./util"
 import { mkdir } from "node:fs/promises"
-import { addNodemon, createBackend } from "./backend"
-import { installDependencies, writePackageJson } from "./base"
+import { addNodemon, addUnbuild, createBackend } from "./backend"
+import {
+  installDependencies,
+  writeGitignore,
+  writePackageJson,
+  writeTsconfig,
+} from "./base"
 import { config } from "./shared"
+import { addEslint, addPrettier } from "./tooling"
 
 /*
  * todo:
@@ -66,8 +72,13 @@ const main = async () => {
   await mkdir(config.targetDirectory, { recursive: true })
   await createBackend()
   await addNodemon()
+  await addUnbuild()
+  await addPrettier()
+  await addEslint()
 
   await writePackageJson()
+  await writeTsconfig()
+  await writeGitignore()
   await installDependencies()
 
   // const { overwrite } = await prompts({
