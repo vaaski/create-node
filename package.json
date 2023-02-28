@@ -3,11 +3,17 @@
   "version": "1.0.0",
   "description": "@vaaski nodejs + typescript boilerplate",
   "type": "module",
-  "main": "index.js",
+  "main": "./dist/index.cjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "bin": "./dist/index.cjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "tsx ./src/index.ts",
-    "dev": "nodemon ./src/index.ts"
+    "dev": "nodemon ./src/index.ts",
+    "build": "unbuild"
   },
   "repository": {
     "type": "git",
@@ -32,7 +38,8 @@
     "nodemon": "^2.0.20",
     "prettier": "^2.8.3",
     "tsx": "^3.12.3",
-    "typescript": "^4.9.5"
+    "typescript": "^4.9.5",
+    "unbuild": "^1.1.2"
   },
   "dependencies": {
     "fs-jetpack": "^5.1.0",
