@@ -8,7 +8,7 @@ import {
   packageJson,
   packageJsonScripts,
 } from "./shared"
-import { forwardedExeca, writeProjectFile } from "./util"
+import { forwardedExeca, getBackendFolder, writeProjectFile } from "./util"
 
 export const patchFrontendPackageJson = async () => {
   const existingPackageJsonPath = join(config.targetDirectory, "package.json")
@@ -77,7 +77,7 @@ export const writeGitignore = async () => {
   await writeProjectFile(".gitignore", defaultGitignore)
 }
 
-const defaultTsconfig = {
+const makeTsconfig = () => ({
   compilerOptions: {
     module: "ESNext",
     target: "ESNext",
@@ -88,8 +88,10 @@ const defaultTsconfig = {
     strict: true,
     lib: ["ES6"],
   },
-  include: ["src/**/*.ts"],
-}
+  include: [`${getBackendFolder()}/**/*.ts`],
+})
 export const writeTsconfig = async () => {
-  await writeProjectFile("tsconfig.json", defaultTsconfig)
+  const configLocation = config.withFrontend ? "tsconfig.backend.json" : "tsconfig.json"
+
+  await writeProjectFile(configLocation, makeTsconfig())
 }

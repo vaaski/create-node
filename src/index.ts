@@ -91,7 +91,7 @@ const main = async () => {
   await addPm2()
 
   await writePackageJson()
-  // await writeTsconfig()
+  await writeTsconfig()
   // await writeGitignore()
   // await installDependencies()
 

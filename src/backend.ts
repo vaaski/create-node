@@ -1,10 +1,10 @@
 import { mkdir } from "node:fs/promises"
 import { join } from "node:path"
 import { config, devDependencies, packageJsonScripts } from "./shared"
-import { writeProjectFile } from "./util"
+import { getBackendFolder, writeProjectFile } from "./util"
 
 export const createBackend = async () => {
-  const backendFolder = config.withFrontend ? "backend" : "src"
+  const backendFolder = getBackendFolder()
   const backendPath = join(config.targetDirectory, backendFolder)
 
   devDependencies.push("typescript", "tsx")
