@@ -14,13 +14,12 @@ export const createBackend = async () => {
 
 const nodemonConfig = {
   watch: ["src/**/*.ts"],
-  "ext:": "ts",
+  ext: "ts",
   exec: "npx tsx",
   events: {
     start: 'node -e "console.clear()"',
   },
 }
-
 export const addNodemon = async () => {
   devDependencies.push("nodemon")
 
@@ -35,4 +34,17 @@ export const addUnbuild = async () => {
 
   if (!packageJson.scripts) packageJson.scripts = {}
   packageJson.scripts.build = "unbuild"
+}
+
+export const addPm2 = async () => {
+  const pm2Config = {
+    apps: [
+      {
+        name: config.projectName,
+        script: "npx tsx backend/index.ts",
+      },
+    ],
+  }
+
+  writeProjectFile("pm2.json", pm2Config)
 }

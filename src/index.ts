@@ -9,7 +9,7 @@ import minimist from "minimist"
 
 import { formatTargetDirectory } from "./util"
 import { mkdir } from "node:fs/promises"
-import { addNodemon, addUnbuild, createBackend } from "./backend"
+import { addNodemon, addPm2, addUnbuild, createBackend } from "./backend"
 import {
   installDependencies,
   writeGitignore,
@@ -76,6 +76,7 @@ const main = async () => {
   await addUnbuild()
   await addPrettier()
   await addEslint()
+  await addPm2()
 
   await writePackageJson()
   await writeTsconfig()

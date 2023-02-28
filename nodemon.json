@@ -1,6 +1,6 @@
 {
   "watch": ["src/**/*.ts"],
-  "ext:": "ts",
+  "ext": "ts",
   "exec": "npx tsx",
   "events": {
     "start": "node -e \"console.clear()\""
