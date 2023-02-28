@@ -1,4 +1,4 @@
-import { devDependencies, packageJson } from "./shared"
+import { devDependencies, packageJsonScripts } from "./shared"
 import { writeProjectFile } from "./util"
 
 const defaultPrettierConfig = {
@@ -14,8 +14,7 @@ const defaultPrettierConfig = {
 export const addPrettier = async () => {
   devDependencies.push("prettier")
 
-  if (!packageJson.scripts) packageJson.scripts = {}
-  packageJson.scripts.format = "prettier --write ."
+  packageJsonScripts.format = "prettier --write ."
 
   await writeProjectFile(".prettierrc", defaultPrettierConfig)
 }
@@ -56,8 +55,7 @@ export const addEslint = async () => {
     "eslint-plugin-unicorn"
   )
 
-  if (!packageJson.scripts) packageJson.scripts = {}
-  packageJson.scripts.lint = "eslint ."
+  packageJsonScripts.lint = "eslint ."
 
   await writeProjectFile(".eslintrc", defaultEslintConfig)
 }

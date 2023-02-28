@@ -18,6 +18,7 @@ import {
 } from "./base"
 import { config } from "./shared"
 import { addEslint, addPrettier } from "./tooling"
+import { addVite } from "./frontend"
 
 /*
  * todo:
@@ -70,6 +71,17 @@ const main = async () => {
   config.targetDirectory = path.join(cwd, relativeTargetDirectory ?? ".")
 
   await mkdir(config.targetDirectory, { recursive: true })
+
+  const { createFrontend } = await prompts({
+    type: "confirm",
+    name: "createFrontend",
+    initial: true,
+    message: "Add frontend with Vite?",
+  })
+
+  config.withFrontend = createFrontend
+  if (createFrontend) await addVite()
+
   await createBackend()
 
   await addNodemon()
@@ -79,9 +91,9 @@ const main = async () => {
   await addPm2()
 
   await writePackageJson()
-  await writeTsconfig()
-  await writeGitignore()
-  await installDependencies()
+  // await writeTsconfig()
+  // await writeGitignore()
+  // await installDependencies()
 
   // const { overwrite } = await prompts({
   //   type: "confirm",
