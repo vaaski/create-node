@@ -9,6 +9,9 @@ import minimist from "minimist"
 
 import { formatTargetDirectory } from "./util"
 import { mkdir } from "node:fs/promises"
+import { addNodemon, createBackend } from "./backend"
+import { installDependencies, writePackageJson } from "./base"
+import { config } from "./shared"
 
 /*
  * todo:
@@ -26,6 +29,8 @@ import { mkdir } from "node:fs/promises"
  *     - maybe add socket boilerplate
  *   - vite
  *     - shared utils/folder
+ *     - css reset
+ *     - sass
  *   - unbuild
  *   - dotenv
  *   - separate types folder
@@ -36,16 +41,6 @@ const cwd = process.cwd()
 
 const argumentTargetDirectory = formatTargetDirectory(argv._[0])
 let relativeTargetDirectory = argumentTargetDirectory
-
-// const getProjectName = () => {
-//   return relativeTargetDirectory === "."
-//     ? path.basename(path.resolve())
-//     : relativeTargetDirectory
-// }
-
-// const getFullTargetPath = () => {
-//   return path.join(cwd, relativeTargetDirectory ?? ".")
-// }
 
 const main = async () => {
   await prompts({
@@ -58,11 +53,22 @@ const main = async () => {
     },
   })
 
-  const fullTargetPath = path.join(cwd, relativeTargetDirectory ?? ".")
+  const projectName =
+    relativeTargetDirectory === "."
+      ? path.basename(path.resolve())
+      : relativeTargetDirectory
 
-  // console.log(relativeTargetDirectory, getProjectName(), fullTargetPath)
+  if (!projectName) throw new Error("Project name is required")
 
-  await mkdir(fullTargetPath, { recursive: true })
+  config.projectName = projectName
+  config.targetDirectory = path.join(cwd, relativeTargetDirectory ?? ".")
+
+  await mkdir(config.targetDirectory, { recursive: true })
+  await createBackend()
+  await addNodemon()
+
+  await writePackageJson()
+  await installDependencies()
 
   // const { overwrite } = await prompts({
   //   type: "confirm",
