@@ -1,6 +1,13 @@
 import { mkdir } from "node:fs/promises"
 import { join } from "node:path"
-import { config, devDependencies, getBackendDistribution, getBackendFolder, packageJson, packageJsonScripts } from "./shared"
+import {
+  config,
+  devDependencies,
+  getBackendDistribution,
+  getBackendFolder,
+  packageJson,
+  packageJsonScripts,
+} from "./shared"
 import { writeProjectFile } from "./util"
 
 export const createBackend = async () => {
@@ -61,7 +68,10 @@ export const addUnbuild = async () => {
     packageJson[key] = value
   }
 
+  config.backendBuilder = true
+
   packageJsonScripts.build = "unbuild"
+  packageJsonScripts.start = `node ./${getBackendDistribution()}/index.mjs`
 }
 
 export const addPm2 = async () => {
@@ -69,7 +79,10 @@ export const addPm2 = async () => {
     apps: [
       {
         name: config.projectName,
-        script: `npx tsx ${getBackendFolder()}/index.ts`,
+        script: config.backendBuilder
+          ? `./${getBackendDistribution()}/index.mjs`
+          // todo: this doesn't work on windows
+          : `npx tsx ./${getBackendFolder()}/index.ts`,
       },
     ],
   }

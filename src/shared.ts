@@ -8,6 +8,8 @@ export const config = {
   targetDirectory: "",
   withFrontend: true,
   frontendTemplate: "",
+
+  backendBuilder: false,
 }
 
 export const dependencies: string[] = []
