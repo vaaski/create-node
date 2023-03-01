@@ -42,6 +42,7 @@ import { addVite } from "./frontend"
  *   - unbuild
  *   - dotenv
  *   - separate types folder
+ *   - initialize git
  */
 
 const argv = minimist(process.argv.slice(2))

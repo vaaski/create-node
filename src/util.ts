@@ -1,6 +1,6 @@
 import type { Options } from "execa"
 
-import { writeFile } from "node:fs/promises"
+import { stat, writeFile } from "node:fs/promises"
 import { join } from "node:path"
 import { execa } from "execa"
 import { config } from "./shared"
@@ -36,3 +36,11 @@ export const forwardedExeca = (
   })
 }
 
+export const exists = async (filePath: string) => {
+  try {
+    await stat(filePath)
+    return true
+  } catch {
+    return false
+  }
+}
