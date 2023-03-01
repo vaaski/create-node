@@ -8,25 +8,26 @@ export const createBackend = async () => {
   const backendPath = join(config.targetDirectory, backendFolder)
 
   devDependencies.push("tsx")
+  packageJsonScripts.start = `tsx ./${getBackendFolder()}/index.ts`
 
   await mkdir(backendPath, { recursive: true })
   await writeProjectFile(join(backendFolder, "index.ts"), `console.log("Hello, world!")`)
 }
 
-const nodemonConfig = {
-  watch: ["src/**/*.ts"],
+const nodemonConfig = () => ({
+  watch: [`${getBackendFolder()}/**/*.ts`],
   ext: "ts",
   exec: "npx tsx",
   events: {
     start: 'node -e "console.clear()"',
   },
-}
+})
 export const addNodemon = async () => {
   devDependencies.push("nodemon")
 
-  packageJsonScripts.dev = "nodemon ./src/index.ts"
+  packageJsonScripts.dev = `nodemon ./${getBackendFolder()}/index.ts`
 
-  await writeProjectFile("nodemon.json", nodemonConfig)
+  await writeProjectFile("nodemon.json", nodemonConfig())
 }
 
 export const addUnbuild = async () => {
@@ -40,7 +41,7 @@ export const addPm2 = async () => {
     apps: [
       {
         name: config.projectName,
-        script: "npx tsx backend/index.ts",
+        script: `npx tsx ${getBackendFolder()}/index.ts`,
       },
     ],
   }
