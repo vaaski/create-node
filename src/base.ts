@@ -61,15 +61,13 @@ export const writePackageJson = async () => {
 }
 
 export const installDependencies = async () => {
-  console.log("dependencies", { dependencies, devDependencies })
-
   if (dependencies.length > 0) {
-    console.log("installing dependencies...")
+    console.log(`installing ${dependencies.length} dependencies...`)
     await forwardedExeca("npm", ["install", ...dependencies])
   }
 
   if (devDependencies.length > 0) {
-    console.log("installing development dependencies...")
+    console.log(`installing ${devDependencies.length} development dependencies...`)
     await forwardedExeca("npm", ["install", "-D", ...devDependencies])
   }
 }
