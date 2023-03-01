@@ -8,6 +8,7 @@ import {
   getBackendDistribution,
   getBackendFolder,
   getPackageJson,
+  getTsconfigFilename,
   packageJsonScripts,
 } from "./shared"
 import { forwardedExeca, writeProjectFile } from "./util"
@@ -87,8 +88,28 @@ export const writeGitignore = async () => {
   }
 }
 
+const patchFrontendTsconfig = async () => {
+  const existingTsconfigPath = join(config.targetDirectory, "tsconfig.json")
+  const existingTsconfigBuffer = await readFile(existingTsconfigPath)
+  const existingTsconfig = JSON.parse(existingTsconfigBuffer.toString())
+
+  if (typeof existingTsconfig !== "object" || existingTsconfig === null) {
+    throw new Error("Invalid tsconfig.json")
+  }
+
+  if (!Array.isArray(existingTsconfig.references)) {
+    existingTsconfig.references = []
+  }
+
+  existingTsconfig.references.push({
+    path: `./${getTsconfigFilename()}`,
+  })
+
+  await writeProjectFile("tsconfig.json", existingTsconfig)
+}
 const makeTsconfig = () => ({
   compilerOptions: {
+    composite: config.withFrontend,
     module: "ESNext",
     target: "ESNext",
     moduleResolution: "Node",
@@ -101,7 +122,10 @@ const makeTsconfig = () => ({
   include: [`${getBackendFolder()}/**/*.ts`],
 })
 export const writeTsconfig = async () => {
-  const configLocation = config.withFrontend ? "tsconfig.backend.json" : "tsconfig.json"
+  const configLocation = getTsconfigFilename()
+  devDependencies.push("typescript", "@types/node")
+
+  if (config.withFrontend) await patchFrontendTsconfig()
 
   await writeProjectFile(configLocation, makeTsconfig())
 }

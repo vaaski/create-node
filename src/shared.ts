@@ -33,6 +33,13 @@ export const getPackageJson = (): PackageJson => ({
   license: "MIT",
 })
 
-export const getBackendFolder = () => (config.withFrontend ? "backend" : "src")
-export const getBackendDistribution = () =>
-  config.withFrontend ? "dist-backend" : "dist"
+export const getBackendFolder = () => {
+  return config.withFrontend ? "backend" : "src"
+}
+export const getBackendDistribution = () => {
+  return config.withFrontend ? "dist-backend" : "dist"
+}
+
+export const getTsconfigFilename = () => {
+  return config.withFrontend ? "tsconfig.backend.json" : "tsconfig.json"
+}

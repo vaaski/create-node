@@ -7,7 +7,7 @@ export const createBackend = async () => {
   const backendFolder = getBackendFolder()
   const backendPath = join(config.targetDirectory, backendFolder)
 
-  devDependencies.push("typescript", "tsx")
+  devDependencies.push("tsx")
 
   await mkdir(backendPath, { recursive: true })
   await writeProjectFile(join(backendFolder, "index.ts"), `console.log("Hello, world!")`)
