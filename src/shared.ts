@@ -14,21 +14,25 @@ export const packageJsonScripts: Record<string, string> = {
   start: "tsx ./src/index.ts",
 }
 
-export const packageJson: PackageJson = {
+export const getPackageJson = (): PackageJson => ({
   name: "create-node",
   version: "0.0.0",
   description: "",
   type: "module",
-  main: "./dist/index.cjs",
-  types: "./dist/index.d.ts",
-  files: ["dist"],
+  main: `./${getBackendDistribution()}/index.cjs`,
+  types: `./${getBackendDistribution()}/index.d.ts`,
+  files: [getBackendDistribution()],
   exports: {
     ".": {
-      import: "./dist/index.mjs",
-      require: "./dist/index.cjs",
+      import: `./${getBackendDistribution()}/index.mjs`,
+      require: `./${getBackendDistribution()}/index.cjs`,
     },
   },
   keywords: [],
   author: "",
   license: "MIT",
-}
+})
+
+export const getBackendFolder = () => (config.withFrontend ? "backend" : "src")
+export const getBackendDistribution = () =>
+  config.withFrontend ? "dist-backend" : "dist"

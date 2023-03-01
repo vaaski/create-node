@@ -1,16 +1,18 @@
 import type { PackageJson } from "type-fest"
-import { readFile } from "node:fs/promises"
+import { appendFile, readFile } from "node:fs/promises"
 import { join } from "node:path"
 import {
   config,
   dependencies,
   devDependencies,
-  packageJson,
+  getBackendDistribution,
+  getBackendFolder,
+  getPackageJson,
   packageJsonScripts,
 } from "./shared"
-import { forwardedExeca, getBackendFolder, writeProjectFile } from "./util"
+import { forwardedExeca, writeProjectFile } from "./util"
 
-export const patchFrontendPackageJson = async () => {
+export const patchFrontendPackageJson = async (packageJson: PackageJson) => {
   const existingPackageJsonPath = join(config.targetDirectory, "package.json")
   const existingPackageJsonBuffer = await readFile(existingPackageJsonPath)
   const existingPackageJson: PackageJson = JSON.parse(
@@ -47,12 +49,13 @@ export const patchFrontendPackageJson = async () => {
 }
 
 export const writePackageJson = async () => {
+  const packageJson = getPackageJson()
+
   packageJson.name = config.projectName
   packageJson.scripts = packageJsonScripts
 
-  // eslint-disable-next-line unicorn/prefer-ternary
   if (config.withFrontend) {
-    await patchFrontendPackageJson()
+    await patchFrontendPackageJson(packageJson)
   } else {
     await writeProjectFile("package.json", packageJson)
   }
@@ -74,7 +77,14 @@ export const installDependencies = async () => {
 
 const defaultGitignore = ["node_modules", "dist"].join("\n")
 export const writeGitignore = async () => {
-  await writeProjectFile(".gitignore", defaultGitignore)
+  if (config.withFrontend) {
+    const gitignorePath = join(config.targetDirectory, ".gitignore")
+    const gitignorePatch = `"\n# Backend\n${getBackendDistribution()}`
+
+    await appendFile(gitignorePath, gitignorePatch)
+  } else {
+    await writeProjectFile(".gitignore", defaultGitignore)
+  }
 }
 
 const makeTsconfig = () => ({

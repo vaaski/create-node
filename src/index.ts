@@ -38,6 +38,7 @@ import { addVite } from "./frontend"
  *     - shared utils/folder
  *     - css reset
  *     - sass
+ *     - concurrently
  *   - unbuild
  *   - dotenv
  *   - separate types folder
@@ -92,8 +93,8 @@ const main = async () => {
 
   await writePackageJson()
   await writeTsconfig()
-  // await writeGitignore()
-  // await installDependencies()
+  await writeGitignore()
+  await installDependencies()
 
   // const { overwrite } = await prompts({
   //   type: "confirm",

@@ -43,6 +43,7 @@ const defaultEslintConfig = {
     "@typescript-eslint/no-var-requires": "off",
     "@typescript-eslint/consistent-type-imports": "error",
     semi: ["error", "never"],
+    "unicorn/prefer-ternary": "off",
   },
 }
 export const addEslint = async () => {

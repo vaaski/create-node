@@ -1,7 +1,7 @@
 import { mkdir } from "node:fs/promises"
 import { join } from "node:path"
-import { config, devDependencies, packageJsonScripts } from "./shared"
-import { getBackendFolder, writeProjectFile } from "./util"
+import { config, devDependencies, getBackendFolder, packageJsonScripts } from "./shared"
+import { writeProjectFile } from "./util"
 
 export const createBackend = async () => {
   const backendFolder = getBackendFolder()

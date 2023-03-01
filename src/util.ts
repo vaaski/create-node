@@ -36,4 +36,3 @@ export const forwardedExeca = (
   })
 }
 
-export const getBackendFolder = () => (config.withFrontend ? "backend" : "src")
