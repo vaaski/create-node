@@ -22,29 +22,41 @@ import { askForFrontend } from "./frontend"
 
 /*
  * todo:
- * - add tsx and backend structure
- * - build with unbuild
+ * - handle ctrl+c at any time
+ * - preselect some modules
  * - use colors
- * - add options for
+ * - use a global config object for everything
+ * - ask for description and put it in package.json and readme
+ * - add license.md
+ * - add readme.md
+ * - add options for:
+ *   - init commit
+ *   - separate types folder
  *   - debug
  *   - jest/ava/vitest idk
- *   - pm2 (account for unbuild)
  *   - socket.io
  *     - maybe add socket boilerplate
  *   - vite frontend
  *     - shared utils/folder
  *     - css reset
  *     - sass
- *     - concurrently
+ *     - concurrently build/dev
  *   - dotenv
- *   - separate types folder
- *   - initialize git
  */
 
 const cwd = process.cwd()
 
 const argumentTargetDirectory = formatTargetDirectory(argv._[0])
 let relativeTargetDirectory = argumentTargetDirectory
+
+type ModuleExecutor = () => Promise<void>
+const optionalModules = new Map<string, ModuleExecutor>([
+  ["nodemon", addNodemon],
+  ["unbuild", addUnbuild],
+  ["prettier", addPrettier],
+  ["eslint", addEslint],
+  ["pm2", addPm2],
+])
 
 const main = async () => {
   await prompts({
@@ -71,14 +83,33 @@ const main = async () => {
   await mkdir(config.targetDirectory, { recursive: true })
 
   await askForFrontend()
-
   await createBackend()
 
-  await addNodemon()
-  await addUnbuild()
-  await addPrettier()
-  await addEslint()
-  await addPm2()
+  const moduleChoices: prompts.Choice[] = []
+
+  for (const key of optionalModules.keys()) {
+    moduleChoices.push({
+      title: key,
+      value: key,
+
+      // todo: fix terkelg/prompts#340
+      disabled: argv[key] !== undefined,
+      selected: argv[key] === true,
+    })
+  }
+
+  const { modules } = await prompts({
+    type: "multiselect",
+    name: "modules",
+    message: "Select optional modules:",
+    choices: moduleChoices,
+    instructions: "\nArrow keys to navigate. Space to select. Enter to submit.",
+  })
+
+  for (const moduleKey of modules) {
+    const executor = optionalModules.get(moduleKey)
+    if (executor) await executor()
+  }
 
   await writePackageJson()
   await writeTsconfig()
