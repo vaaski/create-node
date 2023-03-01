@@ -7,13 +7,13 @@ import {
   devDependencies,
   getBackendDistribution,
   getBackendFolder,
-  getPackageJson,
+  packageJson,
   getTsconfigFilename,
   packageJsonScripts,
 } from "./shared"
 import { forwardedExeca, writeProjectFile } from "./util"
 
-export const patchFrontendPackageJson = async (packageJson: PackageJson) => {
+export const patchFrontendPackageJson = async () => {
   const existingPackageJsonPath = join(config.targetDirectory, "package.json")
   const existingPackageJsonBuffer = await readFile(existingPackageJsonPath)
   const existingPackageJson: PackageJson = JSON.parse(
@@ -50,13 +50,11 @@ export const patchFrontendPackageJson = async (packageJson: PackageJson) => {
 }
 
 export const writePackageJson = async () => {
-  const packageJson = getPackageJson()
-
   packageJson.name = config.projectName
   packageJson.scripts = packageJsonScripts
 
   if (config.withFrontend) {
-    await patchFrontendPackageJson(packageJson)
+    await patchFrontendPackageJson()
   } else {
     await writeProjectFile("package.json", packageJson)
   }

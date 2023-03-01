@@ -32,7 +32,7 @@ import { askForFrontend } from "./frontend"
  *   - prettier
  *   - jest/ava/vitest idk
  *   - nodemon
- *   - pm2
+ *   - pm2 (account for unbuild)
  *   - socket.io
  *     - maybe add socket boilerplate
  *   - vite
