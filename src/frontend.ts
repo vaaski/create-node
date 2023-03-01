@@ -1,7 +1,7 @@
 import { rename } from "node:fs/promises"
 import { join } from "node:path"
 import prompts from "prompts"
-import { config } from "./shared"
+import { argv, config } from "./shared"
 import { exists, forwardedExeca } from "./util"
 
 const patchViteEnvironmentAbbreviation = async () => {
@@ -28,12 +28,19 @@ export const addVite = async () => {
 }
 
 export const askForFrontend = async () => {
-  const { createFrontend } = await prompts({
-    type: config.frontendTemplate ? undefined : "confirm",
-    name: "createFrontend",
-    initial: true,
-    message: "Add frontend with Vite?",
-  })
-  config.withFrontend = !!config.frontendTemplate || createFrontend
-  if (config.withFrontend) await addVite()
+  const frontendFlag = argv.frontend
+  const noFrontendFlag = frontendFlag === false
+
+  if (noFrontendFlag) {
+    config.withFrontend = false
+  } else {
+    const { createFrontend } = await prompts({
+      type: config.frontendTemplate || noFrontendFlag ? undefined : "confirm",
+      name: "createFrontend",
+      initial: true,
+      message: "Add frontend with Vite?",
+    })
+    config.withFrontend = !!config.frontendTemplate || createFrontend
+    if (config.withFrontend && !frontendFlag) await addVite()
+  }
 }

@@ -5,7 +5,6 @@
 
 import path from "node:path"
 import prompts from "prompts"
-import minimist from "minimist"
 
 import { formatTargetDirectory } from "./util"
 import { mkdir } from "node:fs/promises"
@@ -17,7 +16,7 @@ import {
   writePackageJson,
   writeTsconfig,
 } from "./base"
-import { config } from "./shared"
+import { argv, config } from "./shared"
 import { addEslint, addPrettier } from "./tooling"
 import { askForFrontend } from "./frontend"
 
@@ -28,27 +27,21 @@ import { askForFrontend } from "./frontend"
  * - use colors
  * - add options for
  *   - debug
- *   - eslint
- *   - prettier
  *   - jest/ava/vitest idk
- *   - nodemon
  *   - pm2 (account for unbuild)
  *   - socket.io
  *     - maybe add socket boilerplate
- *   - vite
+ *   - vite frontend
  *     - shared utils/folder
  *     - css reset
  *     - sass
  *     - concurrently
- *   - unbuild
  *   - dotenv
  *   - separate types folder
  *   - initialize git
  */
 
-const argv = minimist(process.argv.slice(2))
 const cwd = process.cwd()
-config.frontendTemplate = argv.template || argv.t || ""
 
 const argumentTargetDirectory = formatTargetDirectory(argv._[0])
 let relativeTargetDirectory = argumentTargetDirectory
@@ -73,6 +66,7 @@ const main = async () => {
 
   config.projectName = projectName
   config.targetDirectory = path.join(cwd, relativeTargetDirectory ?? ".")
+  config.frontendTemplate = argv.template || argv.t || ""
 
   await mkdir(config.targetDirectory, { recursive: true })
 
