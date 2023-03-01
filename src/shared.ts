@@ -4,6 +4,7 @@ export const config = {
   projectName: "",
   targetDirectory: "",
   withFrontend: true,
+  frontendTemplate: "",
 }
 
 export const dependencies: string[] = []
@@ -11,7 +12,7 @@ export const devDependencies: string[] = []
 
 export const packageJsonScripts: Record<string, string> = {
   // test: 'echo "no tests"',
-  start: "tsx ./src/index.ts",
+  // start: "tsx ./src/index.ts",
 }
 
 export const getPackageJson = (): PackageJson => ({

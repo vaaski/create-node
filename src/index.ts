@@ -19,7 +19,7 @@ import {
 } from "./base"
 import { config } from "./shared"
 import { addEslint, addPrettier } from "./tooling"
-import { addVite } from "./frontend"
+import { askForFrontend } from "./frontend"
 
 /*
  * todo:
@@ -48,6 +48,7 @@ import { addVite } from "./frontend"
 
 const argv = minimist(process.argv.slice(2))
 const cwd = process.cwd()
+config.frontendTemplate = argv.template || argv.t || ""
 
 const argumentTargetDirectory = formatTargetDirectory(argv._[0])
 let relativeTargetDirectory = argumentTargetDirectory
@@ -75,15 +76,7 @@ const main = async () => {
 
   await mkdir(config.targetDirectory, { recursive: true })
 
-  const { createFrontend } = await prompts({
-    type: "confirm",
-    name: "createFrontend",
-    initial: true,
-    message: "Add frontend with Vite?",
-  })
-
-  config.withFrontend = createFrontend
-  if (createFrontend) await addVite()
+  await askForFrontend()
 
   await createBackend()
 

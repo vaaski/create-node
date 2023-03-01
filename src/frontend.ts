@@ -1,5 +1,6 @@
 import { rename } from "node:fs/promises"
 import { join } from "node:path"
+import prompts from "prompts"
 import { config } from "./shared"
 import { exists, forwardedExeca } from "./util"
 
@@ -16,9 +17,23 @@ const patchViteEnvironmentAbbreviation = async () => {
 }
 
 export const addVite = async () => {
-  await forwardedExeca("npx", ["--yes", "create-vite@latest", config.projectName], {
+  const npxArguments = ["--yes", "create-vite@latest", config.projectName]
+  if (config.frontendTemplate) npxArguments.push("--template", config.frontendTemplate)
+
+  await forwardedExeca("npx", npxArguments, {
     cwd: join(config.targetDirectory, ".."),
   })
 
   await patchViteEnvironmentAbbreviation()
+}
+
+export const askForFrontend = async () => {
+  const { createFrontend } = await prompts({
+    type: config.frontendTemplate ? undefined : "confirm",
+    name: "createFrontend",
+    initial: true,
+    message: "Add frontend with Vite?",
+  })
+  config.withFrontend = !!config.frontendTemplate || createFrontend
+  if (config.withFrontend) await addVite()
 }
