@@ -87,6 +87,9 @@ export const writeGitignore = async () => {
     await writeProjectFile(".gitignore", defaultGitignore)
   }
 }
+export const initializeGit = async () => {
+  await forwardedExeca("git", ["init"])
+}
 
 const patchFrontendTsconfig = async () => {
   const existingTsconfigPath = join(config.targetDirectory, "tsconfig.json")

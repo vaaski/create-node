@@ -11,6 +11,7 @@ import { formatTargetDirectory } from "./util"
 import { mkdir } from "node:fs/promises"
 import { addNodemon, addPm2, addUnbuild, createBackend } from "./backend"
 import {
+  initializeGit,
   installDependencies,
   writeGitignore,
   writePackageJson,
@@ -95,6 +96,7 @@ const main = async () => {
   await writePackageJson()
   await writeTsconfig()
   await writeGitignore()
+  await initializeGit()
   await installDependencies()
 
   // const { overwrite } = await prompts({
