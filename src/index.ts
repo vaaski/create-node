@@ -6,7 +6,6 @@
 import path from "node:path"
 import prompts from "prompts"
 
-import { formatTargetDirectory } from "./util"
 import { mkdir } from "node:fs/promises"
 import { addNodemon, addPm2, addUnbuild, createBackend } from "./backend"
 import {
@@ -14,11 +13,12 @@ import {
   installDependencies,
   writeGitignore,
   writePackageJson,
-  writeTsconfig,
+  writeTsconfig
 } from "./base"
+import { askForFrontend } from "./frontend"
 import { argv, config } from "./shared"
 import { addEslint, addPrettier } from "./tooling"
-import { askForFrontend } from "./frontend"
+import { formatTargetDirectory, onCancel } from "./util"
 
 /*
  * todo:
@@ -49,14 +49,16 @@ const cwd = process.cwd()
 const argumentTargetDirectory = formatTargetDirectory(argv._[0])
 let relativeTargetDirectory = argumentTargetDirectory
 
-type ModuleExecutor = () => Promise<void>
-const optionalModules = new Map<string, ModuleExecutor>([
-  ["nodemon", addNodemon],
-  ["unbuild", addUnbuild],
-  ["prettier", addPrettier],
-  ["eslint", addEslint],
-  ["pm2", addPm2],
+type OptionalModule = [executor: () => Promise<void>, preselected: boolean]
+const optionalModules = new Map<string, OptionalModule>([
+  ["nodemon", [addNodemon, true]],
+  ["unbuild", [addUnbuild, true]],
+  ["prettier", [addPrettier, true]],
+  ["eslint", [addEslint, true]],
+  ["pm2", [addPm2, true]],
 ])
+
+
 
 const main = async () => {
   await prompts({
@@ -87,28 +89,31 @@ const main = async () => {
 
   const moduleChoices: prompts.Choice[] = []
 
-  for (const key of optionalModules.keys()) {
+  for (const [key, [, preselected]] of optionalModules.entries()) {
     moduleChoices.push({
       title: key,
       value: key,
 
       // todo: fix terkelg/prompts#340
       disabled: argv[key] !== undefined,
-      selected: argv[key] === true,
+      selected: argv[key] === true || preselected,
     })
   }
 
-  const { modules } = await prompts({
-    type: "multiselect",
-    name: "modules",
-    message: "Select optional modules:",
-    choices: moduleChoices,
-    instructions: "\nArrow keys to navigate. Space to select. Enter to submit.",
-  })
+  const { modules } = await prompts(
+    {
+      type: "multiselect",
+      name: "modules",
+      message: "Select optional modules:",
+      choices: moduleChoices,
+      instructions: "\nArrow keys to navigate. Space to select. Enter to submit.",
+    },
+    { onCancel }
+  )
 
   for (const moduleKey of modules) {
-    const executor = optionalModules.get(moduleKey)
-    if (executor) await executor()
+    const module = optionalModules.get(moduleKey)
+    if (module) await module[0]()
   }
 
   await writePackageJson()

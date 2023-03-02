@@ -44,3 +44,10 @@ export const exists = async (filePath: string) => {
     return false
   }
 }
+
+export const onCancel = () => {
+  console.log("Operation cancelled")
+
+  // eslint-disable-next-line unicorn/no-process-exit
+  process.exit(0)
+}
