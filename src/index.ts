@@ -9,11 +9,12 @@ import prompts from "prompts"
 import { mkdir } from "node:fs/promises"
 import { addNodemon, addPm2, addUnbuild, createBackend } from "./backend"
 import {
+  initialCommit,
   initializeGit,
   installDependencies,
   writeGitignore,
   writePackageJson,
-  writeTsconfig
+  writeTsconfig,
 } from "./base"
 import { askForFrontend } from "./frontend"
 import { argv, config } from "./shared"
@@ -57,8 +58,6 @@ const optionalModules = new Map<string, OptionalModule>([
   ["eslint", [addEslint, true]],
   ["pm2", [addPm2, true]],
 ])
-
-
 
 const main = async () => {
   await prompts({
@@ -121,6 +120,7 @@ const main = async () => {
   await writeGitignore()
   await initializeGit()
   await installDependencies()
+  await initialCommit()
 
   // const { overwrite } = await prompts({
   //   type: "confirm",
