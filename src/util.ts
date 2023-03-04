@@ -47,6 +47,7 @@ export const exists = async (filePath: string) => {
 
 export const onCancel = async () => {
   console.log("Operation cancelled")
+  await rm(config.targetDirectory, { recursive: true, force: true })
 
   // eslint-disable-next-line unicorn/no-process-exit
   process.exit(0)
