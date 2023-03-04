@@ -1,41 +1,20 @@
-import type { PackageJson } from "type-fest"
-import minimist from "minimist"
+import type { TsConfigJson } from "type-fest"
 
-export const argv = minimist(process.argv.slice(2))
+import { mkdir } from "node:fs/promises"
+import { join } from "node:path"
+import { config } from "./config"
+import { readProjectFile } from "./util"
 
-export const config = {
-  projectName: "",
-  targetDirectory: "",
-  withFrontend: true,
-  frontendTemplate: "",
+export const makeTypesFolder = async () => {
+  const tsconfig = await readProjectFile<TsConfigJson>("tsconfig.json")
+  if (!tsconfig) throw new Error("Invalid tsconfig.json")
 
-  backendBuilder: false,
-}
+  const typesPath = join(config.targetDirectory, "types")
+  await mkdir(typesPath, { recursive: true })
 
-export const dependencies: string[] = []
-export const devDependencies: string[] = []
+  if (!Array.isArray(tsconfig.include)) {
+    tsconfig.include = []
+  }
 
-export const packageJsonScripts: Record<string, string> = {
-  test: 'echo "no tests"',
-}
-
-export const packageJson: PackageJson = {
-  name: "create-node",
-  version: "0.0.0",
-  description: "",
-  type: "module",
-  keywords: [],
-  author: "",
-  license: "MIT",
-}
-
-export const getBackendFolder = () => {
-  return config.withFrontend ? "backend" : "src"
-}
-export const getBackendDistribution = () => {
-  return config.withFrontend ? "dist-backend" : "dist"
-}
-
-export const getTsconfigFilename = () => {
-  return config.withFrontend ? "tsconfig.backend.json" : "tsconfig.json"
+  tsconfig.include.push("types/**/*.d.ts")
 }

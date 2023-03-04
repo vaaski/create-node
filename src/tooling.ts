@@ -1,4 +1,4 @@
-import { devDependencies, packageJsonScripts } from "./shared"
+import { devDependencies, packageJsonScripts } from "./config"
 import { writeProjectFile } from "./util"
 
 const defaultPrettierConfig = {

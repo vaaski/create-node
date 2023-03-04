@@ -17,7 +17,7 @@ import {
   writeTsconfig,
 } from "./base"
 import { askForFrontend } from "./frontend"
-import { argv, config } from "./shared"
+import { argv, config } from "./config"
 import { addEslint, addPrettier } from "./tooling"
 import { formatTargetDirectory, onCancel } from "./util"
 
@@ -31,7 +31,6 @@ import { formatTargetDirectory, onCancel } from "./util"
  * - add license.md
  * - add readme.md
  * - add options for:
- *   - init commit
  *   - separate types folder
  *   - debug
  *   - jest/ava/vitest idk

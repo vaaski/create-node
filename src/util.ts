@@ -1,9 +1,9 @@
 import type { Options } from "execa"
 
-import { stat, writeFile } from "node:fs/promises"
+import { readFile, rm, stat, writeFile } from "node:fs/promises"
 import { join } from "node:path"
 import { execa } from "execa"
-import { config } from "./shared"
+import { config } from "./config"
 
 export const isValidPackageName = (projectName: string) => {
   return /^(?:@[\d*a-z~-][\d*._a-z~-]*\/)?[\da-z~-][\d._a-z~-]*$/.test(projectName)
@@ -45,9 +45,25 @@ export const exists = async (filePath: string) => {
   }
 }
 
-export const onCancel = () => {
+export const onCancel = async () => {
   console.log("Operation cancelled")
 
   // eslint-disable-next-line unicorn/no-process-exit
   process.exit(0)
+}
+
+export async function readProjectFile<T = unknown>(
+  filePath: string,
+  type?: "json"
+): Promise<T | null>
+export async function readProjectFile(filePath: string, type?: "text"): Promise<string>
+export async function readProjectFile(filePath: string, type: "json" | "text" = "json") {
+  const completePath = join(config.targetDirectory, filePath)
+  const fileBuffer = await readFile(completePath)
+  const fileString = fileBuffer.toString()
+
+  if (type === "json") return JSON.parse(fileString)
+  if (type === "text") return fileString
+
+  throw new Error("Invalid type")
 }

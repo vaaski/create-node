@@ -7,7 +7,7 @@ import {
   getBackendFolder,
   packageJson,
   packageJsonScripts,
-} from "./shared"
+} from "./config"
 import { writeProjectFile } from "./util"
 
 export const createBackend = async () => {

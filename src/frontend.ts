@@ -1,7 +1,7 @@
 import { rename } from "node:fs/promises"
 import { join } from "node:path"
 import prompts from "prompts"
-import { argv, config } from "./shared"
+import { argv, config } from "./config"
 import { exists, forwardedExeca, onCancel } from "./util"
 
 const patchViteEnvironmentAbbreviation = async () => {
