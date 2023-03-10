@@ -36,6 +36,15 @@ export const forwardedExeca = (
   })
 }
 
+export const openCode = async () => {
+  try {
+    await forwardedExeca("code", [config.targetDirectory])
+  }
+  catch {
+    // ignore
+  }
+}
+
 export const exists = async (filePath: string) => {
   try {
     await stat(filePath)

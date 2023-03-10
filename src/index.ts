@@ -19,7 +19,7 @@ import {
 import { askForFrontend } from "./frontend"
 import { argv, config } from "./config"
 import { addEslint, addPrettier } from "./tooling"
-import { formatTargetDirectory, onCancel } from "./util"
+import { formatTargetDirectory, onCancel, openCode } from "./util"
 
 /*
  * todo:
@@ -118,6 +118,7 @@ const main = async () => {
   await writeTsconfig()
   await writeGitignore()
   await initializeGit()
+  await openCode()
   await installDependencies()
   await initialCommit()
 
