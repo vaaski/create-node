@@ -72,7 +72,7 @@ export const installDependencies = async () => {
   }
 }
 
-const defaultGitignore = ["node_modules", "dist"].join("\n")
+const defaultGitignore = ["node_modules", "dist", ".DS_Store"].join("\n")
 export const writeGitignore = async () => {
   if (config.withFrontend) {
     const gitignorePath = join(config.targetDirectory, ".gitignore")
