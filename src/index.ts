@@ -16,9 +16,10 @@ import {
   writePackageJson,
   writeTsconfig,
 } from "./base"
-import { askForFrontend } from "./frontend"
 import { argv, config } from "./config"
-import { addEslint, addPrettier } from "./tooling"
+import { askForFrontend } from "./frontend"
+import { addEslint } from "./tooling/eslint"
+import { addPrettier } from "./tooling/prettier"
 import { formatTargetDirectory, onCancel, openCode } from "./util"
 
 /*
