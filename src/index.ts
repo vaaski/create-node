@@ -7,6 +7,7 @@ import path from "node:path"
 import prompts from "prompts"
 
 import { mkdir } from "node:fs/promises"
+import packageJson from "../package.json"
 import { addNodemon, addPm2, addUnbuild, createBackend } from "./backend"
 import {
   initialCommit,
@@ -60,6 +61,8 @@ const optionalModules = new Map<string, OptionalModule>([
 ])
 
 const main = async () => {
+  console.log(`${packageJson.name} v${packageJson.version}`)
+
   await prompts({
     type: argumentTargetDirectory ? undefined : "text",
     name: "projectName",
