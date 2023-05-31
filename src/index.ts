@@ -21,7 +21,7 @@ import { argv, config } from "./config"
 import { askForFrontend } from "./frontend"
 import { addEslint } from "./tooling/eslint"
 import { addPrettier } from "./tooling/prettier"
-import { formatTargetDirectory, onCancel, openCode } from "./util"
+import { formatTargetDirectory, onCancel, openCode, yesNo } from "./util"
 
 /*
  * todo:
@@ -122,9 +122,11 @@ const main = async () => {
   await writeTsconfig()
   await writeGitignore()
   await initializeGit()
-  await openCode()
-  await installDependencies()
-  await initialCommit()
+  await yesNo("Install dependencies?", async () => {
+    await installDependencies()
+    await initialCommit()
+  })
+  await yesNo("Open in VSCode?", openCode)
 
   // const { overwrite } = await prompts({
   //   type: "confirm",

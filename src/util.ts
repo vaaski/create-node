@@ -5,6 +5,7 @@ import { join } from "node:path"
 import { execa } from "execa"
 import { config } from "./config"
 import JSON5 from "json5"
+import prompts from "prompts"
 
 export const isValidPackageName = (projectName: string) => {
   return /^(?:@[\d*a-z~-][\d*._a-z~-]*\/)?[\da-z~-][\d._a-z~-]*$/.test(projectName)
@@ -40,8 +41,7 @@ export const forwardedExeca = (
 export const openCode = async () => {
   try {
     await forwardedExeca("code", [config.targetDirectory])
-  }
-  catch {
+  } catch {
     // ignore
   }
 }
@@ -77,4 +77,21 @@ export async function readProjectFile(filePath: string, type: "json" | "text" = 
   if (type === "text") return fileString
 
   throw new Error("Invalid type")
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const yesNo = async <E extends (...parameters: any) => any>(
+  message: string,
+  executor: E,
+  initial = true
+): Promise<false | Awaited<ReturnType<E>>> => {
+  const { descision } = await prompts({
+    type: "confirm",
+    name: "descision",
+    message,
+    initial,
+  })
+
+  if (descision) return executor()
+  else return false
 }
