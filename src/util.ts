@@ -4,6 +4,7 @@ import { readFile, rm, stat, writeFile } from "node:fs/promises"
 import { join } from "node:path"
 import { execa } from "execa"
 import { config } from "./config"
+import JSON5 from "json5"
 
 export const isValidPackageName = (projectName: string) => {
   return /^(?:@[\d*a-z~-][\d*._a-z~-]*\/)?[\da-z~-][\d._a-z~-]*$/.test(projectName)
@@ -72,7 +73,7 @@ export async function readProjectFile(filePath: string, type: "json" | "text" = 
   const fileBuffer = await readFile(completePath)
   const fileString = fileBuffer.toString()
 
-  if (type === "json") return JSON.parse(fileString)
+  if (type === "json") return JSON5.parse(fileString)
   if (type === "text") return fileString
 
   throw new Error("Invalid type")

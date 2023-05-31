@@ -1,14 +1,15 @@
-import type { PackageJson, TsConfigJson } from "type-fest"
+import JSON5 from "json5"
 import { appendFile, readFile } from "node:fs/promises"
 import { join } from "node:path"
+import type { PackageJson, TsConfigJson } from "type-fest"
 import {
   config,
   dependencies,
   devDependencies,
   getBackendDistribution,
   getBackendFolder,
-  packageJson,
   getTsconfigFilename,
+  packageJson,
   packageJsonScripts,
 } from "./config"
 import { forwardedExeca, readProjectFile, writeProjectFile } from "./util"
@@ -16,7 +17,7 @@ import { forwardedExeca, readProjectFile, writeProjectFile } from "./util"
 export const patchFrontendPackageJson = async () => {
   const existingPackageJsonPath = join(config.targetDirectory, "package.json")
   const existingPackageJsonBuffer = await readFile(existingPackageJsonPath)
-  const existingPackageJson: PackageJson = JSON.parse(
+  const existingPackageJson: PackageJson = JSON5.parse(
     existingPackageJsonBuffer.toString()
   )
 
@@ -94,7 +95,7 @@ export const initialCommit = async () => {
 const patchFrontendTsconfig = async () => {
   // const existingTsconfigPath = join(config.targetDirectory, "tsconfig.json")
   // const existingTsconfigBuffer = await readFile(existingTsconfigPath)
-  // const existingTsconfig = JSON.parse(existingTsconfigBuffer.toString())
+  // const existingTsconfig = JSON5.parse(existingTsconfigBuffer.toString())
   const existingTsconfig = await readProjectFile<TsConfigJson>("tsconfig.json")
 
   if (typeof existingTsconfig !== "object" || existingTsconfig === null) {
