@@ -122,10 +122,10 @@ const main = async () => {
   await writeTsconfig()
   await writeGitignore()
   await initializeGit()
-  await yesNo("Install dependencies?", async () => {
-    await installDependencies()
-    await initialCommit()
-  })
+  // await yesNo("Install dependencies?", async () => {
+  await installDependencies()
+  await initialCommit()
+  // })
   await yesNo("Open in VSCode?", openCode)
 
   // const { overwrite } = await prompts({
