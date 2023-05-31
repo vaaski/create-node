@@ -64,12 +64,12 @@ export const writePackageJson = async () => {
 export const installDependencies = async () => {
   if (dependencies.length > 0) {
     console.log(`installing ${dependencies.length} dependencies...`)
-    await forwardedExeca("npm", ["install", ...dependencies])
+    await forwardedExeca("npx", ["-y", "pnpm", "install", ...dependencies])
   }
 
   if (devDependencies.length > 0) {
     console.log(`installing ${devDependencies.length} development dependencies...`)
-    await forwardedExeca("npm", ["install", "-D", ...devDependencies])
+    await forwardedExeca("npx", ["-y", "pnpm", "install", "-D", ...devDependencies])
   }
 }
 
